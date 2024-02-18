@@ -18,10 +18,14 @@ export const HomePage = () => {
   const location = useLocation();
 
   const findProductsByCategory = async (category) => {
-    const { data } = await productApi.get(
-      `/api/products?color=${[]}&size=${[]}&minPrice=${0}&maxPrice=${1000000}&minDiscount=${0}&category=${category}&stock=${"in_stock"}&sort=${"price_high"}&pageNumber=${0}&pageSize=${30}`
-    );
-    return data;
+    try {
+      const { data } = await productApi.get(
+        `/api/products?color=${[]}&size=${[]}&minPrice=${0}&maxPrice=${1000000}&minDiscount=${0}&category=${category}&stock=${"in_stock"}&sort=${"price_high"}&pageNumber=${0}&pageSize=${30}`
+      );
+      return data;
+    } catch (error) {
+      console.log("ERROR!- fetching product by category : ", error.message);
+    }
   };
 
   const fetchData = async () => {
@@ -46,9 +50,8 @@ export const HomePage = () => {
     // });
   }, []);
 
-  useEffect(() =>
-    //if(location.pathname === "/login")
-    {}, []);
+  useEffect(() => {}, []);
+  useEffect(() => {}, [womenDress, womenTops, men_shirt]);
 
   return (
     <div className="bg-stone-300">

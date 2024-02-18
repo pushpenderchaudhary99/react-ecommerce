@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { productApi } from "../../configuration/ApiConfig";
+import { productApi, productApiWithToken } from "../../configuration/ApiConfig";
 import {
   CREATE_PRODUCT_FAILURE,
   CREATE_PRODUCT_REQUEST,
@@ -37,6 +37,31 @@ export const findProducts = (reqData) => async (dispatch) => {
     dispatch({ type: FIND_PRODUCTS_FAILURE, payload: error.message });
   }
 };
+export const searchProducts = (reqData) => async (dispatch) => {
+  dispatch({ type: FIND_PRODUCTS_REQUEST });
+  try {
+    const {
+      colors,
+      sizes,
+      minPrice,
+      maxPrice,
+      minDiscount,
+      query,
+      stock,
+      sort,
+      pageNumber,
+      pageSize,
+    } = reqData;
+    console.log("Search REQUEST DATA : ", reqData);
+    const { data } =
+      await productApi.get(`/api/products/search?query=${query}&color=${colors}&size=${sizes}&minPrice=${minPrice}&maxPrice=${maxPrice}&minDiscount=${minDiscount}
+    &stock=${stock}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
+    console.log("Product Search DATA : ", data);
+    dispatch({ type: FIND_PRODUCTS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: FIND_PRODUCTS_FAILURE, payload: error.message });
+  }
+};
 
 export const findProductById = (reqData) => async (dispatch) => {
   dispatch({ type: FIND_PRODUCT_BY_ID_REQUEST });
@@ -52,7 +77,7 @@ export const findProductById = (reqData) => async (dispatch) => {
 export const createProduct = (reqData) => async (dispatch) => {
   dispatch({ type: CREATE_PRODUCT_REQUEST });
   try {
-    const { data } = await productApi.post(
+    const { data } = await productApiWithToken.post(
       `/api/admin/products/`,
       reqData.data
     );

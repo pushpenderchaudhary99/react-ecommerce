@@ -11,6 +11,7 @@ import Order from "../customer/components/Orders/Order";
 import OrderDetails from "../customer/components/Orders/OrderDetails";
 import PaymentPage from "../customer/components/DummyPayment/DummyPayment";
 import PageNotFount from "../customer/Pages/PageNotFount";
+import { ProductsSearchPage } from "../customer/components/ProductPage/ProductsSearchPage";
 const CustomerRoutes = () => {
   return (
     <>
@@ -27,6 +28,7 @@ const CustomerRoutes = () => {
             path="/:levelOne/:levelTwo/:levelThree"
             element={<ProductsPage />}
           />
+          <Route path="/products/search" element={<ProductsSearchPage />} />
           <Route path="/product/:productId" element={<ProductDetails />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/account/order" element={<Order />} />

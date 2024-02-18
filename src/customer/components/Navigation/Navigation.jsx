@@ -7,11 +7,18 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
-import { Avatar, Button, Menu, MenuItem } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 
 import { deepPurple } from "@mui/material/colors";
 import { navigation } from "./navigationData";
-import { TireRepair } from "@mui/icons-material";
+import { Search, TireRepair } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import AuthModal from "../Auth/AuthModal";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +26,11 @@ import { getUser, logout } from "../../../States/Auth/Action";
 import { LOGOUT } from "../../../States/Auth/ActionType";
 import { getCart } from "../../../States/Cart/Action";
 import logo from "../../../assets/logo.png";
+import { productApi } from "../../../configuration/ApiConfig";
+import {
+  FIND_PRODUCTS_FAILURE,
+  FIND_PRODUCTS_SUCCESS,
+} from "../../../States/Products/ActionType";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -36,6 +48,20 @@ export default function Navigation() {
   const location = useLocation();
   const loginButtonRef = useRef(null);
 
+  const [searchText, setSearchText] = useState("");
+  const [expandSearch, setExpandSearch] = useState(false);
+
+  const handleSearch = () => {
+    navigate(`/products/search?query=${searchText}`);
+    // Implement your search functionality here
+    console.log("Search triggered with:", searchText);
+  };
+  const handleExpandSearch = () => {
+    setExpandSearch(true);
+  };
+  const handleCloseSearch = () => {
+    setExpandSearch(false);
+  };
   useEffect(() => {
     if (location.pathname === "/login" && loginButtonRef.current) {
       loginButtonRef.current.click();
@@ -467,15 +493,54 @@ export default function Navigation() {
                 </div>
 
                 {/* Search */}
-                <div className="flex lg:ml-6">
-                  <p className="p-2 text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon
-                      className="h-6 w-6"
-                      aria-hidden="true"
-                    />
-                  </p>
-                </div>
+                {expandSearch ? (
+                  <>
+                    {" "}
+                    {/* Expanded Search */}
+                    <div className="ml-4">
+                      {" "}
+                      {/* Add top margin to move the search bar down */}
+                      <TextField
+                        className=""
+                        placeholder="Search..."
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onKeyPress={(e) => {
+                          if (e.key === "Enter") {
+                            handleSearch();
+                          }
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <MagnifyingGlassIcon
+                              className="h-6 w-6 text-gray-400 cursor-pointer"
+                              aria-hidden="true"
+                              onClick={handleSearch}
+                            />
+                          ),
+                        }}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {/* Search Icon Button */}
+                    <div className="flex lg:ml-6 ">
+                      <p className="p-2 text-gray-400 hover:text-gray-500">
+                        <span className="sr-only">Search</span>
+                        <MagnifyingGlassIcon
+                          className="h-6 w-6 "
+                          aria-hidden="true"
+                          onClick={handleExpandSearch}
+                          onMouseOut={handleCloseSearch}
+                        />
+                      </p>
+                    </div>
+                  </>
+                )}
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">

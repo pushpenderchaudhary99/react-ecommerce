@@ -1,11 +1,18 @@
 import axios from "axios";
-export const API_BASE_URL_AUTH = "http://localhost:5454";
-export const API_BASE_URL_USERS = "http://localhost:5454";
-export const API_BASE_URL_CART = "http://localhost:5454";
-export const API_BASE_URL_PRODUCTS = "http://localhost:5454";
-export const API_BASE_URL_ORDERS = "http://localhost:5454";
-export const API_BASE_URL_REVIEW_AND_RATING = "http://localhost:5454";
-export const API_BASE_URL_PAYMENT = "http://localhost:5454";
+export const API_BASE_URL_AUTH =
+  "https://ecommerce-server-production-ddf1.up.railway.app/";
+export const API_BASE_URL_USERS =
+  "https://ecommerce-server-production-ddf1.up.railway.app/";
+export const API_BASE_URL_CART =
+  "https://ecommerce-server-production-ddf1.up.railway.app/";
+export const API_BASE_URL_PRODUCTS =
+  "https://ecommerce-server-production-ddf1.up.railway.app/";
+export const API_BASE_URL_ORDERS =
+  "https://ecommerce-server-production-ddf1.up.railway.app/";
+export const API_BASE_URL_REVIEW_AND_RATING =
+  "https://ecommerce-server-production-ddf1.up.railway.app/";
+export const API_BASE_URL_PAYMENT =
+  "https://ecommerce-server-production-ddf1.up.railway.app/";
 
 const getJwtToken = () => {
   const jwt = localStorage.getItem("jwt");
@@ -26,6 +33,13 @@ export const userApi = axios.create({
 // API FOR PRODUCTS
 export const productApi = axios.create({
   baseURL: API_BASE_URL_PRODUCTS,
+});
+export const productApiWithToken = axios.create({
+  baseURL: API_BASE_URL_PRODUCTS,
+  headers: {
+    Authorization: `Bearer ${getJwtToken()}`,
+    "Content-Type": "application/json",
+  },
 });
 
 // API FOR CART

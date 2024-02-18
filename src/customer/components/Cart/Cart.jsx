@@ -24,9 +24,12 @@ export const Cart = () => {
   };
 
   useEffect(() => {
-    if (jwt) dispatch(getCart());
-  }, [cart.removedCartItem, cart.updatedCartItem, jwt]);
-  useEffect(() => {}, [cart.cart?.cartItems]);
+    dispatch(getCart());
+  }, [cart.removedCartItem, cart.updatedCartItem]);
+  useEffect(() => {}, [cart.cart]);
+  useEffect(() => {
+    dispatch(getCart());
+  }, [dispatch]);
   return (
     <div>
       <div className="lg:grid grid-cols-3 lg:px-16 relative">

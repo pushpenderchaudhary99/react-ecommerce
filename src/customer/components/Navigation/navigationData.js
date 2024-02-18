@@ -31,7 +31,7 @@ export const navigation = {
             { name: "Women Jeans", id: "women_jeans" },
             { name: "Sarees", id: "saree" },
             { name: "Lengha Choli", id: "lengha_choli" },
-            { name: "Kurtas", id: "kurtas" },
+            { name: "Kurtis", id: "kurtis" },
             { name: "Activewear", id: "womens_ativewear" },
             { name: "Lingree", id: "lingree" },
           ],
