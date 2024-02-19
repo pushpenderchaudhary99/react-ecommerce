@@ -10,10 +10,11 @@ import {
   MenuItem,
   IconButton,
   Box,
+  LinearProgress,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createProduct } from "../../States/Products/Action";
 
 const initialSizes = [
@@ -53,6 +54,7 @@ const thirdLevelCategories = [
 ];
 
 const CreateProductForm = () => {
+  const { product } = useSelector((store) => store);
   const [productData, setProductData] = useState({
     imageUrl: "",
     brand: "",
@@ -310,8 +312,21 @@ const CreateProductForm = () => {
               sx={{ p: 1.8, mt: 2, width: "30rem" }}
               size="large"
               type="submit"
+              disabled={product?.loading}
             >
               Add New Product
+              {product?.loading && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    width: "100%",
+                  }}
+                >
+                  <LinearProgress color="primary" />
+                </Box>
+              )}
             </Button>
           </Grid>
         </Grid>

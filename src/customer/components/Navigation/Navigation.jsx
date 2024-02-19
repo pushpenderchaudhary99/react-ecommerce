@@ -13,6 +13,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Skeleton,
   TextField,
 } from "@mui/material";
 
@@ -222,8 +223,15 @@ export default function Navigation() {
                             >
                               {section.items.map((item) => (
                                 <li key={item.name} className="flow-root">
-                                  <p className="-m-2 block p-2 text-gray-500">
-                                    {"item.name"}
+                                  <p
+                                    className="-m-2 block p-2 text-gray-500"
+                                    onClick={() => {
+                                      navigate(
+                                        `${category.id}/${section.id}/${item.id}`
+                                      );
+                                    }}
+                                  >
+                                    {item.name}
                                   </p>
                                 </li>
                               ))}
@@ -432,10 +440,14 @@ export default function Navigation() {
                   ))}
                 </div>
               </Popover.Group>
+
               {/* Logged in navbar */}
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {auth.user ? (
+                  {/* Loading user Progress...*/}
+                  {auth.isLoading ? (
+                    <Skeleton variant="circular" width={40} height={40} />
+                  ) : auth.user ? (
                     <div>
                       <Avatar
                         className="text-white"
@@ -450,7 +462,7 @@ export default function Navigation() {
                           cursor: "pointer",
                         }}
                       >
-                        {auth.user?.firstName[0].toUpperCase()}{" "}
+                        {auth?.user?.firstName[0]?.toUpperCase()}{" "}
                         {/*user name first letteruppercase*/}
                       </Avatar>
                       {/* <Button

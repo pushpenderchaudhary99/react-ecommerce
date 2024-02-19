@@ -8,6 +8,7 @@ import {
   Chip,
   FormControl,
   InputLabel,
+  LinearProgress,
   Menu,
   MenuItem,
   Pagination,
@@ -185,6 +186,11 @@ const OrdersTable = () => {
         </Grid>
       </Card>
       <Card sx={{ mt: "10px" }}>
+        {adminOrder?.loading && (
+          <Box sx={{ position: "relative", bottom: 0, left: 0, width: "100%" }}>
+            <LinearProgress color="primary" />
+          </Box>
+        )}
         <CardHeader
           title="All Orders"
           sx={{

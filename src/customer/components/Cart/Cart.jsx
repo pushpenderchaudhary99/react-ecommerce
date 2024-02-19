@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { CartItem } from "./CartItem";
-import { Button } from "@mui/material";
+import { Button, Skeleton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCart } from "../../../States/Cart/Action";
 import { ShoppingCart } from "@mui/icons-material";
 import Swal from "sweetalert2";
+import CartSkeleton from "./CartSkeleton";
 
 export const Cart = () => {
   const navigate = useNavigate();
@@ -34,8 +35,12 @@ export const Cart = () => {
     <div>
       <div className="lg:grid grid-cols-3 lg:px-16 relative">
         <div className="col-span-2">
-          {cart.cart?.cartItems?.length === 0 ||
-            (!cart?.cart && (
+          {/* Loading Cart */}
+          {cart?.loading &&
+            [1, 2, 3].map((item) => <CartSkeleton key={item} />)}
+          {/* Empty Cart */}
+          {!cart?.cart ||
+            (cart.cart?.cartItems?.length === 0 && (
               <>
                 <div className="flex flex-col h-[30rem] border rounded-lg shadow-md">
                   <div className="flex items-center justify-center mt-[10rem]">
@@ -51,6 +56,7 @@ export const Cart = () => {
                 </div>
               </>
             ))}
+          {/* Cart with items */}
           {cart.cart?.cartItems?.map((item) => (
             <CartItem item={item} />
           ))}
@@ -62,25 +68,65 @@ export const Cart = () => {
             <div className="space-y-3 font-semibold mb-10">
               <div className="flex justify-between pt-3 text-black  ">
                 <span>Price</span>
-                <span>{cart.cart?.totalPrice ? cart.cart?.totalPrice : 0}</span>
+                <span>
+                  {cart.cart?.totalPrice ? (
+                    cart.cart?.totalPrice
+                  ) : cart?.loading ? (
+                    <Skeleton
+                      variant="text"
+                      sx={{ fontSize: "1rem" }}
+                      width={50}
+                    />
+                  ) : (
+                    0
+                  )}
+                </span>
               </div>
               <div className="flex justify-between pt-3 ">
                 <span>Discount</span>
                 <span className=" text-green-600 ">
-                  {cart.cart?.discounte ? cart.cart?.discounte : 0}
+                  {cart.cart?.discounte ? (
+                    cart.cart?.discounte
+                  ) : cart?.loading ? (
+                    <Skeleton
+                      variant="text"
+                      sx={{ fontSize: "1rem" }}
+                      width={50}
+                    />
+                  ) : (
+                    0
+                  )}
                 </span>
               </div>
               <div className="flex justify-between pt-3 ">
                 <span>Delivary Charges</span>
-                <span className=" text-green-600 ">Free</span>
+                <span className=" text-green-600 ">
+                  {cart?.loading ? (
+                    <Skeleton
+                      variant="text"
+                      sx={{ fontSize: "1rem" }}
+                      width={50}
+                    />
+                  ) : (
+                    "FREE"
+                  )}
+                </span>
               </div>
               <hr></hr>
               <div className="flex justify-between pt-5 font-bold ">
                 <span>Total Amount</span>
-                <span className=" text-green-600">
-                  {cart.cart?.totalDiscountedPrice
-                    ? cart.cart?.totalDiscountedPrice
-                    : 0}
+                <span className="text-green-600">
+                  {cart.cart?.totalDiscountedPrice ? (
+                    cart.cart?.totalDiscountedPrice
+                  ) : cart?.loading ? (
+                    <Skeleton
+                      variant="text"
+                      sx={{ fontSize: "1rem" }}
+                      width={50}
+                    />
+                  ) : (
+                    0
+                  )}
                 </span>
               </div>
             </div>

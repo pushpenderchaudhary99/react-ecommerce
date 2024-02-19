@@ -4,6 +4,8 @@ import OrderCard from "./OrderCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderHistory } from "../../../States/Orders/Action";
 import { useNavigate } from "react-router-dom";
+import LocalShipping from "@mui/icons-material/LocalShipping";
+import OrderCardSkeleton from "./Skeletons/OrderCardSkeleton";
 
 const Order = () => {
   const order_status = [
@@ -54,6 +56,29 @@ const Order = () => {
         {/* Orders */}
         <Grid item xs={9}>
           <div className="space-y-5">
+            {/* Loading Skeleton */}
+            {order?.loading &&
+              [1, 2, 3, 4].map((key) => <OrderCardSkeleton key={key} />)}
+            {/* NO Order Placed */}
+            {order?.orders?.length === 0 && (
+              <div className="flex flex-col h-[30rem]  w-full">
+                <div className="flex items-center justify-center mt-[10rem]">
+                  <LocalShipping
+                    className="text-6xl text-gray-400 "
+                    sx={{ fontSize: 48 }}
+                  />
+                </div>
+                <div className="flex flex-col items-center justify-center  text-gray-400">
+                  <div className="text-xl font-semibold mb-2">
+                    No Orders to Display
+                  </div>
+                  <div className="text-lg">
+                    It looks like you haven't placed any orders yet.
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Order History */}
             {order.orders?.map((item) => (
               <div
                 onClick={() => handelOrderClick(item.id)}

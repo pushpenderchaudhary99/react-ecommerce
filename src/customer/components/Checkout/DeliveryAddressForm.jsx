@@ -1,4 +1,11 @@
-import { Box, Button, Grid, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  LinearProgress,
+  TextField,
+} from "@mui/material";
 import React, { useState } from "react";
 import AddressCard from "../AddressCard/AddressCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +17,7 @@ const DeliveryAddressForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { auth } = useSelector((state) => state);
+  const { order } = useSelector((state) => state);
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => {
@@ -69,8 +77,14 @@ const DeliveryAddressForm = () => {
                       variant="contained"
                       color="primary"
                       onClick={() => handleCreateOrder(item)}
+                      disabled={order?.loading}
                     >
                       Deliverd Here
+                      {order?.loading && (
+                        <Box sx={{ display: "flex", ml: "15px" }}>
+                          <CircularProgress color="primary" />
+                        </Box>
+                      )}
                     </Button>
                   )}
                 </div>
@@ -180,8 +194,14 @@ const DeliveryAddressForm = () => {
                           size="large"
                           type="submit"
                           variant="contained"
+                          disabled={order?.loading}
                         >
                           Deliverd Here
+                          {order?.loading && (
+                            <Box sx={{ display: "flex", ml: "15px" }}>
+                              <CircularProgress color="primary" />
+                            </Box>
+                          )}
                         </Button>
                       </Grid>
                     </Grid>

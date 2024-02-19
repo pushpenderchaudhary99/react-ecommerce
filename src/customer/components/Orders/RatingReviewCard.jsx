@@ -6,16 +6,20 @@ import {
   Button,
   Rating,
   Avatar,
+  Box,
+  CircularProgress,
+  LinearProgress,
 } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import { Send } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { rateAndReviewProduct } from "../../../States/RatingAndReview/Action";
 
 const ReviewCard = ({ product, handelClose }) => {
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
   const dispatch = useDispatch();
+  const { ratingAndReview } = useSelector((store) => store);
 
   const handleReviewSubmit = () => {
     // Here you can handle the submission of review text and rating
@@ -82,11 +86,15 @@ const ReviewCard = ({ product, handelClose }) => {
               color="primary"
               startIcon={<Send />}
               onClick={handleReviewSubmit}
+              disabled={ratingAndReview?.loading}
             >
               Submit Review
             </Button>
           </div>
         </CardContent>
+        <div className="w-full p-2 ">
+          {ratingAndReview?.loading && <LinearProgress />}
+        </div>
       </Card>
     </div>
   );

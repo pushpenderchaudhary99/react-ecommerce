@@ -2,6 +2,8 @@ import axios from "axios";
 import {
   API_BASE_URL_AUTH,
   API_BASE_URL_USERS,
+  authApi,
+  userApi,
 } from "../../configuration/ApiConfig";
 import {
   GET_USER_FAILURE,
@@ -28,10 +30,7 @@ const registerFailure = (error) => ({ type: REGISTER_FAILURE, payload: error });
 export const register = (userData) => async (dispach) => {
   dispach(registerRequest());
   try {
-    const response = await axios.post(
-      `${API_BASE_URL_AUTH}/auth/signup`,
-      userData
-    );
+    const response = await authApi.post(`/auth/signup`, userData);
     const user = response.data;
     if (user.jwt) {
       localStorage.setItem("jwt", user.jwt);
@@ -44,6 +43,7 @@ export const register = (userData) => async (dispach) => {
     }
     console.log("user : ", user);
     dispach(registerSucess(user.jwt));
+    window.location.href = "/";
   } catch (error) {
     dispach(registerFailure(error.message));
     Swal.fire({
@@ -62,10 +62,7 @@ const loginFailure = (error) => ({ type: LOGIN_FAILURE, payload: error });
 export const login = (userData) => async (dispach) => {
   dispach(loginRequest());
   try {
-    const response = await axios.post(
-      `${API_BASE_URL_AUTH}/auth/signin`,
-      userData
-    );
+    const response = await authApi.post(`/auth/signin`, userData);
     const user = response.data;
     if (user.jwt) {
       dispach(loginSucess(user.jwt));
@@ -92,14 +89,7 @@ export const getUser = (token) => {
     console.log("in get user dispatch ");
     dispatch(getUserRequest());
     try {
-      const response = await axios.get(
-        `${API_BASE_URL_USERS}/api/users/profile`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await userApi.get(`/api/users/profile`);
       const user = response.data;
       dispatch(getUserSucess(user));
       console.log("req User ", user);

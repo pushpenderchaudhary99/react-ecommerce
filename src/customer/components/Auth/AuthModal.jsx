@@ -1,11 +1,21 @@
-import { Box, Fade, Modal, Typography, Backdrop } from "@mui/material";
+import {
+  Box,
+  Fade,
+  Modal,
+  Typography,
+  Backdrop,
+  LinearProgress,
+} from "@mui/material";
 import React from "react";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 import { useLocation } from "react-router-dom";
 import { Login } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { userApi } from "../../../configuration/ApiConfig";
 
 const AuthModal = ({ handleClose, open }) => {
+  const { auth } = useSelector((store) => store);
   const location = useLocation();
   const style = {
     position: "absolute",
@@ -22,6 +32,12 @@ const AuthModal = ({ handleClose, open }) => {
     //zIndex: 1000, // Ensure the backdrop is above other elements
     //backgroundColor: "rgba(0, 0, 0, 0.5)", // Increase darkness by adjusting alpha value
     //filter: "url(#blur)",
+  };
+  const linearProgressStyle = {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: "100%",
   };
 
   return (
@@ -43,9 +59,14 @@ const AuthModal = ({ handleClose, open }) => {
           zIndex: 999,
         }}
       >
-        <Box sx={style}>
-          {location.pathname === "/login" ? <LoginForm /> : <RegisterForm />}
-        </Box>
+        <>
+          <Box sx={style}>
+            {location.pathname === "/login" ? <LoginForm /> : <RegisterForm />}
+          </Box>
+          <Box sx={linearProgressStyle}>
+            {auth.isLoading && <LinearProgress />}
+          </Box>
+        </>
       </Modal>
     </div>
   );
