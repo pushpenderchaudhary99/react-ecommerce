@@ -14,9 +14,9 @@ export const ratingReviewReducer = (state = initialState, action) => {
     case REVIEW_PRODUCT_REQUEST:
       return { ...state, loading: true };
     case REVIEW_PRODUCT_SUCCESS:
-      return { ...state, ratingAndReview: action.payload };
+      return { ...state, loading: false, ratingAndReview: action.payload };
     case REVIEW_PRODUCT_FAILURE:
-      return { ...state, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
