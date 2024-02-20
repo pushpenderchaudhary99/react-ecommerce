@@ -83,7 +83,7 @@ export default function Navigation() {
     if (location.pathname === "/login" || location.pathname === "/register") {
       navigate(-1);
     }
-    if (auth?.user?.role === "ADMIN") <Navigate to="/admin" />;
+    if (auth?.user?.role === "ADMIN") navigate("/admin");
   }, [auth.user]);
 
   useEffect(() => {}, [cart.cart, jwt]);
@@ -301,7 +301,7 @@ export default function Navigation() {
 
               {/* Logo */}
               <div
-                className="ml-4 flex lg:ml-0"
+                className="ml-4 flex lg:ml-0 cursor-pointer"
                 onClick={() => {
                   navigate("/");
                 }}
