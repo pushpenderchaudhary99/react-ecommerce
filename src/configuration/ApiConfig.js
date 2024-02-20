@@ -99,7 +99,6 @@ export const ratingsApiWithoutAuth = axios.create({
 export const paymentsApi = axios.create({
   baseURL: API_BASE_URL_PAYMENT,
   headers: {
-    Authorization: `Bearer ${getJwtToken()}`,
     "Content-Type": "application/json",
     withCredentials: true,
   },

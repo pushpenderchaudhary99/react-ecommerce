@@ -19,7 +19,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PAYMENT_SUCCESS } from "../../../States/Payment/ActionType";
 import { getOrderById } from "../../../States/Orders/Action";
-import { cartApi } from "../../../configuration/ApiConfig";
+import {
+  SINGLE_BASE_URL,
+  cartApi,
+  paymentsApi,
+  userApi,
+} from "../../../configuration/ApiConfig";
 import { getCart, removeCartItem } from "../../../States/Cart/Action";
 
 const PaymentPage = () => {
@@ -43,9 +48,7 @@ const PaymentPage = () => {
   const createPaymentBackend = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get(
-        `http://localhost:5454/payment/${order.order.id}`
-      );
+      const { data } = await paymentsApi.get(`/payment/${order.order.id}`);
       console.log("RESPONSE", data);
       setOrderAmount(data?.payment_amount);
       paymentId = data?.payment_id;
@@ -67,8 +70,8 @@ const PaymentPage = () => {
   const handelPayment = async () => {
     setPaymentLoading(true);
     try {
-      const { data } = await axios.post(
-        `http://localhost:5454/payment/success?payment_id=${paymentId}&order_id=${order.order.id}`
+      const { data } = await paymentsApi.post(
+        `/payment/success?payment_id=${paymentId}&order_id=${order.order.id}`
       );
       if (data.status) {
         dispatch({ type: PAYMENT_SUCCESS });

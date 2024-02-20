@@ -48,10 +48,10 @@ export default function Navigation() {
   const dispatch = useDispatch();
   const location = useLocation();
   const loginButtonRef = useRef(null);
-
+  const [username, setUsername] = useState("");
   const [searchText, setSearchText] = useState("");
   const [expandSearch, setExpandSearch] = useState(false);
-
+  const [cartItems, setCartItems] = useState(0);
   const handleSearch = () => {
     navigate(`/products/search?query=${searchText}`);
     // Implement your search functionality here
@@ -78,6 +78,7 @@ export default function Navigation() {
   }, [jwt]);
   useEffect(() => {
     if (auth.user) {
+      setUsername(auth?.user?.firstName[0]?.toUpperCase());
       handleClose();
     }
     if (location.pathname === "/login" || location.pathname === "/register") {
@@ -86,7 +87,9 @@ export default function Navigation() {
     if (auth?.user?.role === "ADMIN") navigate("/admin");
   }, [auth.user]);
 
-  useEffect(() => {}, [cart.cart, jwt]);
+  useEffect(() => {
+    setCartItems(cart?.cart?.totalItem);
+  }, [cart?.cart, jwt]);
 
   const handelLogout = () => {
     dispatch(logout());
@@ -467,8 +470,7 @@ export default function Navigation() {
                           cursor: "pointer",
                         }}
                       >
-                        {auth?.user?.firstName[0]?.toUpperCase()}{" "}
-                        {/*user name first letteruppercase*/}
+                        {username} {/*user name first letteruppercase*/}
                       </Avatar>
                       {/* <Button
                         id="basic-button"
@@ -570,7 +572,7 @@ export default function Navigation() {
                       aria-hidden="true"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      {cart.cart?.totalItem} {/*cart items*/}
+                      {cartItems} {/*cart items*/}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Button>
