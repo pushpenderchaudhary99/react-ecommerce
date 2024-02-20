@@ -20,7 +20,7 @@ import {
 import { deepPurple } from "@mui/material/colors";
 import { navigation } from "./navigationData";
 import { Search, TireRepair } from "@mui/icons-material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import AuthModal from "../Auth/AuthModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, logout } from "../../../States/Auth/Action";
@@ -83,7 +83,7 @@ export default function Navigation() {
     if (location.pathname === "/login" || location.pathname === "/register") {
       navigate(-1);
     }
-    if (auth?.user?.role === "ADMIN") window.location.href = "/admin";
+    if (auth?.user?.role === "ADMIN") <Navigate to="/admin" />;
   }, [auth.user]);
 
   useEffect(() => {}, [cart.cart, jwt]);
@@ -300,7 +300,12 @@ export default function Navigation() {
               </button>
 
               {/* Logo */}
-              <div className="ml-4 flex lg:ml-0">
+              <div
+                className="ml-4 flex lg:ml-0"
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
                 <span className="sr-only">Fly Cart</span>
                 <img
                   src={logo}

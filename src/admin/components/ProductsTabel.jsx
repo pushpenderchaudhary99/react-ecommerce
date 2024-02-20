@@ -38,7 +38,7 @@ const ProductsTabel = () => {
       minDiscount: 0,
       sort: "price_low",
       pageNumber: page - 1 || 0,
-      pageSize: 6,
+      pageSize: 7,
       stock: "",
     };
 

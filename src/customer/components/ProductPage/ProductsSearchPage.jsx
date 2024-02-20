@@ -36,7 +36,8 @@ import { lingerie_bikini } from "../../../data/Women/lingree_bikini.js";
 import { useDispatch, useSelector } from "react-redux";
 import { searchProducts } from "../../../States/Products/Action.js";
 import { Pagination } from "@mui/material";
-
+import ProductSceleton from "./ProductSceleton.jsx";
+import StoreIcon from "@mui/icons-material/Store";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -466,6 +467,29 @@ export function ProductsSearchPage() {
               {/* Product grid */}
               <div className="lg:col-span-4 w-full">
                 <div className="flex flex-wrap justify-center bg-white py-5">
+                  {product?.loading
+                    ? [1, 2, 3, 4, 5, 6, 7, 8].map((i) => <ProductSceleton />)
+                    : ""}
+
+                  {/* If product is not present  */}
+                  {product.products?.content?.length === 0 && (
+                    <div className="flex flex-col h-[30rem]  w-full">
+                      <div className="flex items-center justify-center mt-[10rem]">
+                        <StoreIcon
+                          className="text-6xl text-gray-400 "
+                          sx={{ fontSize: 48 }}
+                        />
+                      </div>
+                      <div className="flex flex-col items-center justify-center  text-gray-400">
+                        <div className="text-xl font-semibold mb-2">
+                          No Products Currently Available
+                        </div>
+                        <div className="text-lg">
+                          Check back soon for exciting new arrivals!
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   {product.products?.content?.map((item) => (
                     <ProductCard key={item.id} product={item} />
                   ))}

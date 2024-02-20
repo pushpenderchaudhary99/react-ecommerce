@@ -46,6 +46,7 @@ const thirdLevelCategories = [
   { label: "Womens Sunglasses", value: "women_sunglasses" },
   { label: "Mens T-Shirts", value: "t-shirt" },
   { label: "Mens Shirt", value: "shirt" },
+  { label: "Mens Jeans", value: "men_jeans" },
   { label: "Mens Jackets", value: "mens_jackets" },
   { label: "Mens Activewear", value: "mens_ativewear" },
   { label: "Mens Ethnic Wear", value: "mens_ethnic_wear" },

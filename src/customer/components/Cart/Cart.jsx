@@ -26,11 +26,13 @@ export const Cart = () => {
 
   useEffect(() => {
     dispatch(getCart());
-  }, [cart.removedCartItem, cart.updatedCartItem]);
-  useEffect(() => {}, [cart.cart]);
+  }, []);
+
   useEffect(() => {
     dispatch(getCart());
-  }, [dispatch]);
+  }, [cart.removedCartItem, cart.updatedCartItem]);
+  useEffect(() => {}, [cart.cart]);
+
   return (
     <div>
       <div className="lg:grid grid-cols-3 lg:px-16 relative">

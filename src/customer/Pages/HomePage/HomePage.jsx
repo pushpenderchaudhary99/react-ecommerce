@@ -41,13 +41,13 @@ export const HomePage = () => {
   useEffect(() => {
     fetchData();
     // Message to show for demo user
-    // Swal.fire({
-    //   title: "TO USE ADMIN ACCOUNT",
-    //   text: "Email : admin@admin.com , Password : admin",
-    //   icon: "info",
-    //   timer: 10000, // Auto close after 3 seconds
-    //   showConfirmButton: true,
-    // });
+    Swal.fire({
+      title: "TO USE ADMIN ACCOUNT",
+      text: "Email : admin@admin.com , Password : admin",
+      icon: "info",
+      timer: 50000, // Auto close after 3 seconds
+      showConfirmButton: true,
+    });
   }, []);
 
   useEffect(() => {}, []);

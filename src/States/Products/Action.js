@@ -96,7 +96,7 @@ export const deleteProductById = async (reqData) => {
   try {
     const { productId } = reqData;
     console.log("ACTION DELETE ID:", productId);
-    const { data } = await productApi.delete(
+    const { data } = await productApiWithToken.delete(
       `/api/admin/products/${productId}/delete`
     );
     if (data?.status) {
